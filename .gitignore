@@ -1,0 +1,5 @@
+# because we use typescript 
+*.js
+
+.vscode
+node_modules/
