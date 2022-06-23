@@ -4,6 +4,7 @@ import { startGame } from './game/game'
 import { GameClient, Game, GameMessage } from './models/gameModels'
 import { notifyAllHandleChameleon, notifyAllListeners } from './helpers/notifiers'
 import { EVENT_STREAM_HEADERS, SERVER_PORT } from './constants/expressConstants'
+import { getClientIds } from './helpers/clientId'
 
 const app = express()
 
@@ -69,20 +70,13 @@ app.get('/join-lobby/:id', (req, res) => {
           activeGames.delete(sessionId)
         } else {
           activeGames.set(sessionId, tempGame)
-          notifyAllListeners(tempGame, createClientStrings(tempGame.clients))
+          notifyAllListeners(tempGame, JSON.stringify(getClientIds(tempGame.clients)))
         }
       }
     })
 
     activeGames.set(sessionId, tempGame)
-
-    let clientArray: Array<number> = []
-  
-    tempGame.clients.forEach((client, index) => {
-      clientArray.push(client.clientId)
-    })
-
-    notifyAllListeners(tempGame, JSON.stringify(clientArray))
+    notifyAllListeners(tempGame, JSON.stringify(getClientIds(tempGame.clients)))
   }
   else {
     res.write("event: game_error\ndata: Attempted to join invalid session.\n\n")
