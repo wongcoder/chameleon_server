@@ -2,9 +2,9 @@
   "name": "chameleon_server",
   "version": "1.0.0",
   "description": "Basic chameleon server that should let users host and play games",
-  "main": "index.js",
+  "main": "ts-build/index.js",
   "scripts": {
-    "start": "npx tsc && node index.js",
+    "start": "npx tsc && node ts-build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
